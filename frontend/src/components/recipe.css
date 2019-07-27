@@ -1,5 +1,6 @@
 .recipe-small {
     display: flex;
+    background-color: white;
 }
 
 .recipe-image {
