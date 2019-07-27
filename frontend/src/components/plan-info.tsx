@@ -33,7 +33,7 @@ export class PlanInfo extends React.Component<
       recipes: [],
       ingredients: [],
       refresh: props.refresh,
-      showPrices: false,
+      showPrices: false
     };
   }
 
@@ -126,15 +126,18 @@ export class PlanInfo extends React.Component<
 
   togglePrice = () => {
     const opposite = !this.state.showPrices;
-    this.setState({showPrices: opposite});
-  }
+    this.setState({ showPrices: opposite });
+  };
 
   render() {
     const shoppingListItems = this.state.ingredients.map(i => {
       return (
-        <div className="ingredient-item">
-          <b>{i.ingredientName}</b>:{this.convert(i.amount)}
-        </div>
+        <tr className="ingredient-item">
+          <td className="ingredient-name">
+            <b>{i.ingredientName}</b>
+          </td>
+          <td className="ingredient-quantity">{this.convert(i.amount)}</td>
+        </tr>
       );
     });
 
@@ -148,10 +151,24 @@ export class PlanInfo extends React.Component<
             </div>
             <div className="recipe-row">{this.state.recipes}</div>
           </div>
-          <Button onClick={this.togglePrice} color="secondary" variant="contained">
-            Place Order
-          </Button>
-          {this.state.showPrices ? <Receipt ingredients={this.state.ingredients}></Receipt>: <div className="ingredients-list">{shoppingListItems}</div>}
+          <div>
+            <div className="price-button-container">
+              <Button
+                onClick={this.togglePrice}
+                color={this.state.showPrices ? "primary" : "secondary"}
+                variant="contained"
+              >
+                {this.state.showPrices ? "1-Click Buy" : "Get Prices"}
+              </Button>
+            </div>
+            {this.state.showPrices ? (
+              <Receipt ingredients={this.state.ingredients} />
+            ) : (
+              <div className="ingredients-list">
+                <table>{shoppingListItems}</table>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );

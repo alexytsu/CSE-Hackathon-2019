@@ -1,0 +1,20 @@
+.subtotal {
+    margin: 10px;
+    font-weight: bold;
+}
+
+.ingredient-column {
+    text-align: left;
+}
+
+.ingredient-price {
+    text-align: right;
+}
+
+.ingredient-name {
+    text-align: left;
+}
+
+.ingredient-quality {
+    text-align: right;
+}

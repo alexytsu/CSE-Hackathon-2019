@@ -1,11 +1,15 @@
 .recipe-small {
     display: flex;
     background-color: white;
+    box-shadow: 0px 0px 3px 4px hsla(0, 0%, .15); 
+    margin: 5px;
+    min-width: 300px;
 }
 
 .recipe-image {
     max-width: 70px;
     max-height: 70px;
+    border-radius: 10px;
     
 }
 .recipe-info {

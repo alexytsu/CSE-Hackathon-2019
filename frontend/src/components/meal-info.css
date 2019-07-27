@@ -1,5 +1,5 @@
 .card {
-  border-radius: 4px;
+  border-radius: 10px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -24,10 +24,14 @@
 .ingredients-list {
     overflow-y: scroll;
     flex-wrap: wrap;
-    display: flex;
     flex-direction: row;
+    max-height: 500px;
 }
 
 .ingredient-item {
-    width: 30%;
+    width: 100%;
+}
+
+.price-button-container {
+  padding: 20px;
 }
