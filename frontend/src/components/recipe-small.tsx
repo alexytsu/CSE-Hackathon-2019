@@ -9,6 +9,7 @@ export interface RecipeInterface {
   imageURL: string;
   recipeName: string;
   recipeDescription: string;
+  recipeURL: string;
 }
 
 export const RecipeSmall: React.FC<RecipeInterface> = (props) => {
@@ -16,7 +17,7 @@ export const RecipeSmall: React.FC<RecipeInterface> = (props) => {
     <div className="recipe-small">
       <img className="recipe-image" src={props.imageURL}></img>
       <div className="recipe-info">
-          <div className="recipe-name">{props.recipeName}</div>
+          <a href={props.recipeURL} className="recipe-name">{props.recipeName}</a>
           <div className="recipe-description">{props.recipeDescription}</div>
       </div>
     </div>

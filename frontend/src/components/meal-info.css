@@ -24,6 +24,10 @@
   border-bottom-left-radius: 4px;
 }
 
+.card-body {
+    display: flex;
+}
+
 .section {
   background-color: #ffffff;
   text-align: left;

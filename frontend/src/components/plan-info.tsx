@@ -2,6 +2,7 @@ import React from "react";
 
 import "./meal-info.css";
 import { RecipeSmall, RecipeInterface } from "./recipe-small";
+import { Button } from "@material-ui/core";
 
 export interface PlanSummaryProps {
   recipeIDList: string[];
@@ -69,7 +70,7 @@ export class PlanInfo extends React.Component<
 
         for (let i = 1; i <= 20; i++) {
           const ingredientIdx: string = "strIngredient" + i;
-          if (recipe[ingredientIdx] === "") {
+          if (recipe[ingredientIdx] === "" || ! recipe[ingredientIdx]) {
             break;
           }
 
@@ -94,7 +95,18 @@ export class PlanInfo extends React.Component<
       })
     );
 
-    ingredients.sort();
+    const key = (a: IngredientWithAmount, b: IngredientWithAmount) => {
+
+      if ( a.ingredientName < b.ingredientName ){
+        return -1;
+      }
+      if ( a.ingredientName > b.ingredientName ){
+        return 1;
+      }
+      return 0;
+    };
+
+    ingredients.sort(key);
     this.setState({ recipes: results, ingredients });
 
   }
@@ -107,22 +119,28 @@ export class PlanInfo extends React.Component<
   render() {
     const shoppingListItems = this.state.ingredients.map(i => {
       return (
-        <p>
-          {i.ingredientName}:{i.amount}
-        </p>
+        <div>
+          <b>{i.ingredientName}</b>:{i.amount}
+        </div>
       );
     });
 
     return (
       <div className="card">
         <h2>Plan Summary</h2>
+        <div className="card-body">
+
         <div className="section">
           <div className="section-header">
             <p>Recipes</p>
           </div>
           <div className="recipe-row">{this.state.recipes}</div>
         </div>
-        {shoppingListItems}
+        <div>
+          <Button color={"secondary"}> Buy Now!</Button>
+          {shoppingListItems}
+        </div>
+        </div>
       </div>
     );
   }
