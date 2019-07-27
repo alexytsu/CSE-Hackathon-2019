@@ -68,4 +68,4 @@ class recipeAPI(APIView):
             resp = Response()
             resp.status_code = 404
             resp.data = resp_dict
-        return Response("addRecipe")
+        return resp

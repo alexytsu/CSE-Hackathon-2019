@@ -8,3 +8,4 @@ class Recipe(models.Model):
     Cuisine = models.CharField(max_length=50)  
     Instructions = models.TextField()
     Ingredients = models.TextField()
+    Perishable = models.TextField()
