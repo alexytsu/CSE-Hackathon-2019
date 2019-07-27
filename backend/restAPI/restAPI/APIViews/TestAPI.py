@@ -5,14 +5,16 @@ from restAPI.models import Test
 
 class TestAPI(APIView):
     def get(self, request):
-        idVal = int(request.data.get('id'))
         try:
-            testObj = Test.objects.get(id=idVal)
-            print(testObj.input)
+            array =[]
+            testObj = Test.objects.filter()
+            for testOBJ in testObj:
+                array.append(testOBJ.input)
+            print("objs",testObj)
             resp_dict =  {
                 'status':'success',
                 'message':'retrieved object',
-                'data':{'id':testObj.id, 'input':testObj.input}
+                'data': array
             }
             resp = Response()
             resp.status_code = 201
@@ -22,7 +24,7 @@ class TestAPI(APIView):
             resp_dict =  {
                 'status':'fail',
                 'message': 'something went wrong',
-                'data':{'id':testObj.id, 'input':testObj.input}
+                'data':{}
             }
             resp = Response()
             resp.status_code = 404

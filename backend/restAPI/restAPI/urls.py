@@ -19,5 +19,6 @@ from restAPI import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('Test', views.TestAPI.as_view())
+    path('Test', views.TestAPI.as_view()),
+    path('Recipe',views.recipeAPI.as_view()),
 ]
