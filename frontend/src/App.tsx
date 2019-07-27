@@ -3,11 +3,6 @@ import logo from "./logo.svg";
 import Button from "@material-ui/core/Button";
 import "./App.css";
 import { PlanInfo } from "./components/plan-info";
-import { ChooseRecipes } from "./components/choose-recipe";
-import { tsTypeQuery } from "@babel/types";
-
-const getCategoriesRequest =
-  "https://www.themealdb.com/api/json/v1/1/list.php?c=list";
 
 interface AppState {
   recipeIDList: string[];
@@ -59,15 +54,16 @@ class App extends React.Component<{}, AppState> {
     if (this.state.loading) {
       return "LOADING";
     }
-    
+
     return (
       <div className="App">
-        {/* <ChooseRecipes category="Chicken" addChosen={this.addChosen}></ChooseRecipes> */}
-        <PlanInfo
-          refresh={this.state.refresh}
-          recipeIDList={this.state.recipeIDList}
-        />
-        <Button onClick={this.getNewThings}>Another Plan</Button>
+        <div className="container">
+          <Button onClick={this.getNewThings} color="primary" variant="outlined">Generate Plan</Button>
+          <PlanInfo
+            refresh={this.state.refresh}
+            recipeIDList={this.state.recipeIDList}
+          />
+        </div>
       </div>
     );
   }

@@ -3,6 +3,7 @@ import React from "react";
 import "./meal-info.css";
 import { RecipeSmall, RecipeInterface } from "./recipe-small";
 import { Button } from "@material-ui/core";
+import { Receipt } from "./receipt";
 
 export interface PlanSummaryProps {
   recipeIDList: string[];
@@ -12,6 +13,7 @@ export interface PlanSummaryProps {
 export interface PlanSummaryInterface {
   recipes: JSX.Element[];
   ingredients: IngredientWithAmount[];
+  showPrices: boolean;
   refresh: boolean;
 }
 
@@ -28,25 +30,22 @@ export class PlanInfo extends React.Component<
     super(props);
 
     this.state = {
-      recipes: [], 
+      recipes: [],
       ingredients: [],
       refresh: props.refresh,
+      showPrices: false,
     };
   }
 
   async componentDidUpdate() {
-    if(this.state.refresh != this.props.refresh) {
+    if (this.state.refresh != this.props.refresh) {
       const recipeIDs: string[] = this.props.recipeIDList;
       const ingredients: IngredientWithAmount[] = [];
       console.log("updated");
       const refresh = this.props.refresh;
-      this.setState({refresh});
+      this.setState({ refresh });
       this.updateData();
-
     }
-
-
-
   }
 
   async updateData() {
@@ -61,16 +60,17 @@ export class PlanInfo extends React.Component<
         const json = await response.json();
         const recipe = json.meals[0];
         console.log(recipe);
-        const { strArea, strMeal, strMealThumb } = recipe;
+        const { strArea, strMeal, strMealThumb, strSource } = recipe;
         const recipeInfo: RecipeInterface = {
           imageURL: strMealThumb,
           recipeName: strMeal,
-          recipeDescription: strArea
+          recipeDescription: strArea,
+          recipeURL: strSource
         };
 
         for (let i = 1; i <= 20; i++) {
           const ingredientIdx: string = "strIngredient" + i;
-          if (recipe[ingredientIdx] === "" || ! recipe[ingredientIdx]) {
+          if (recipe[ingredientIdx] === "" || !recipe[ingredientIdx]) {
             break;
           }
 
@@ -96,11 +96,10 @@ export class PlanInfo extends React.Component<
     );
 
     const key = (a: IngredientWithAmount, b: IngredientWithAmount) => {
-
-      if ( a.ingredientName < b.ingredientName ){
+      if (a.ingredientName < b.ingredientName) {
         return -1;
       }
-      if ( a.ingredientName > b.ingredientName ){
+      if (a.ingredientName > b.ingredientName) {
         return 1;
       }
       return 0;
@@ -108,7 +107,6 @@ export class PlanInfo extends React.Component<
 
     ingredients.sort(key);
     this.setState({ recipes: results, ingredients });
-
   }
 
   async componentDidMount() {
@@ -116,11 +114,26 @@ export class PlanInfo extends React.Component<
     // get the five recipe id's
   }
 
+  convert(amount: string) {
+    const amountshits = amount.split(" ");
+    if (amountshits.length == 1) {
+      return amountshits[0];
+    }
+    if (amountshits.length == 2) {
+      return amount;
+    } else return amountshits[0] + amountshits[1];
+  }
+
+  togglePrice = () => {
+    const opposite = !this.state.showPrices;
+    this.setState({showPrices: opposite});
+  }
+
   render() {
     const shoppingListItems = this.state.ingredients.map(i => {
       return (
-        <div>
-          <b>{i.ingredientName}</b>:{i.amount}
+        <div className="ingredient-item">
+          <b>{i.ingredientName}</b>:{this.convert(i.amount)}
         </div>
       );
     });
@@ -129,17 +142,16 @@ export class PlanInfo extends React.Component<
       <div className="card">
         <h2>Plan Summary</h2>
         <div className="card-body">
-
-        <div className="section">
-          <div className="section-header">
-            <p>Recipes</p>
+          <div className="section">
+            <div className="section-header">
+              <p>Recipes</p>
+            </div>
+            <div className="recipe-row">{this.state.recipes}</div>
           </div>
-          <div className="recipe-row">{this.state.recipes}</div>
-        </div>
-        <div>
-          <Button color={"secondary"}> Buy Now!</Button>
-          {shoppingListItems}
-        </div>
+          <Button onClick={this.togglePrice} color="secondary" variant="contained">
+            Place Order
+          </Button>
+          {this.state.showPrices ? <Receipt ingredients={this.state.ingredients}></Receipt>: <div className="ingredients-list">{shoppingListItems}</div>}
         </div>
       </div>
     );
