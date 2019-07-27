@@ -1,0 +1,17 @@
+.recipe-small {
+    display: flex;
+}
+
+.recipe-image {
+    max-width: 70px;
+    max-height: 70px;
+    
+}
+.recipe-info {
+    padding: 10px;
+}
+
+.recipe-name {
+    font-weight: bold;
+    font-size: 14px;
+}
