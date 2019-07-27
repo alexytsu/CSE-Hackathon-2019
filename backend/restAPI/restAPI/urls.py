@@ -21,4 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('Test', views.TestAPI.as_view()),
     path('Recipe',views.recipeAPI.as_view()),
+    path('RecipeId', views.recipeId.as_view()),
+    path('RecipeCategory', views.recipeCategory.as_view()),
+    path('RecipeRecommend', views.recipeRecommend.as_view()),
 ]
